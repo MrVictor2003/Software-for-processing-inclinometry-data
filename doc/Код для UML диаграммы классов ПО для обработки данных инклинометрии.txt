@@ -1,0 +1,87 @@
+@startuml
+title "UML диаграмма ПО для обработки данных инклинометрии"
+skinparam classAttributeIconSize 0
+
+class RawDataCollector {
++filename: str
++raw_data: list
++read_data(): list
+}
+
+class ConverterRawDataToLenghtDangleZangle {
++lst_raw_data: list
++lst_lenght_dangle_zangleg_zanglea: list
++lst_zangle_accel: list
++lst_roll_accel: list
++lst_dt: list
++lst_zangle_gyro: list
++lst_dangle: list
++lst_lenght_encoder: list
++calculate_zangle_by_accel(): list
++calculate_roll_by_accel(): list
++calculate_dt(): list
++calculate_zangle_by_gyro(): list
++calculate_lenght_by_encoder(): list
++calculate_dangle(): list
++get_lenght_dangle_zangleg_zanglea(): list
+}
+
+class ComplementaryFilter {
++lst_l_d_zg_za: list
++lst_lenght_dangle_zangle: list
++alpha: 0.9
++lst_zangles: list
++filter_zangles(): list
++get_lenght_dangle_zangle(): list
+}
+
+class ConverterToXYH {
++lst_lenght_dangle_zangle: list
++x: float
++y: float
++z: float
++lst_x: list
++lst_y: list
++lst_z: list
++lst_xyz: list
++calculate_x(): list
++calculate_y(): list
++calculate_z(): list
++get_coords(): list
+}
+
+class Visualizer {
++lst_xyz: list
++lst_x: list
++lst_y: list
++lst_z: list
++get_x(): list
++get_y(): list
++get_z(): list
++show_2d_trajectory(): 2d plot
++show_3d_trajectory(): 3d plot
+}
+
+class ExportToTxtFile {
++lst_xyz: list
++lst_x: list
++lst_y: list
++lst_z: list
++export_to_txt(): txt-file
+}
+
+class WellDeviation {
++lst_xyz: list
++lst_lateral_deviation: list
++get_lateral_deviations(): list
++get_max_lateral_deviation(): float
+}
+
+RawDataCollector <-- ConverterRawDataToLenghtDangleZangle
+ConverterRawDataToLenghtDangleZangle <-- ComplementaryFilter
+ComplementaryFilter <-- ConverterToXYH
+ConverterToXYH <-- Visualizer
+ConverterToXYH <-- ExportToTxtFile
+ConverterToXYH <-- WellDeviation
+
+@enduml
