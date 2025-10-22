@@ -1,0 +1,12 @@
+После записи данных на RP Pico:
+1) Вытащить RP Pico из порта
+2) Зажать кнопку Bootsel на RP Pico и вставить в порт
+3) Вытащить RP Pico из порта и вставить обратно
+4) В консоли прописать:
+ampy --port COM3 ls - для просмотра файлов на ampy --port COM3 ls
+
+ampy --port COM3 get file.txt C:/путь/к/папке/file.txt - скачивание файла в нужную папку
+
+
+пример:
+ampy --port COM3 get raw_data_file.txt "C:\Users\ygodn\OneDrive\Рабочий стол\курсовая алгоритмы\raw_data_file.txt"
