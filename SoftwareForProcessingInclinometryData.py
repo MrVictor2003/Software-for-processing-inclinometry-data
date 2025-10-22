@@ -349,33 +349,34 @@ def main():
 
     """это проверка расчета зенитных углов (нужно будет добавить в метод calculate_zangle_by_gyro,
     если это правильно или удалить, если нет"""
-    check_y_gyro = []
-    for i in raw_data_lst:
-        check_y_gyro.append(i.get('y_gyro'))
+    # check_y_gyro = []
+    # for i in raw_data_lst:
+    #     check_y_gyro.append(i.get('y_gyro'))
+    #
+    # print('данные с гироскопа по оси у:')
+    # print(check_y_gyro)
+    #
+    # print('dt:')
+    # print(lst_dt)
+    #
+    # check_lst_gyro_pitch = []
+    # for i in range(len(lst_dt)):
+    #     if i == 0:
+    #         behind_gyro_pitch = lst_dt[i]*check_y_gyro[i]
+    #         check_lst_gyro_pitch.append(behind_gyro_pitch)
+    #     else:
+    #         current_gyro_pitch = behind_gyro_pitch + lst_dt[i]*check_y_gyro[i]
+    #         check_lst_gyro_pitch.append(current_gyro_pitch)
+    #         behind_gyro_pitch = current_gyro_pitch
+    #
+    #
+    # print('зенитные углы по гироскопу в градусах:')
+    # print(check_lst_gyro_pitch)
+    # print(len(check_lst_gyro_pitch))
+    #
+    # print('вычисленные зенитные углы по гироскопу в классе моем')
+    # print(lst_zangles_gyro)
+    # print(len(lst_zangles_gyro))
 
-    print('данные с гироскопа по оси у:')
-    print(check_y_gyro)
-
-    print('dt:')
-    print(lst_dt)
-
-    check_lst_gyro_pitch = []
-    for i in range(len(lst_dt)):
-        if i == 0:
-            behind_gyro_pitch = lst_dt[i]*check_y_gyro[i]
-            check_lst_gyro_pitch.append(behind_gyro_pitch)
-        else:
-            current_gyro_pitch = behind_gyro_pitch + lst_dt[i]*check_y_gyro[i]
-            check_lst_gyro_pitch.append(current_gyro_pitch)
-            behind_gyro_pitch = current_gyro_pitch
-
-
-    print('зенитные углы по гироскопу в градусах:')
-    print(check_lst_gyro_pitch)
-    print(len(check_lst_gyro_pitch))
-
-    print('вычисленные зенитные углы по гироскопу в классе моем')
-    print(lst_zangles_gyro)
-    print(len(lst_zangles_gyro))
 if __name__ == "__main__":
     main()
