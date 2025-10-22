@@ -84,7 +84,6 @@ class ConverterRawDataToLenghtDangleZangle:
                 current_value = self.lst_raw_data[i].get('pulses')
                 previous_value = self.lst_raw_data[i - 1].get('pulses')
                 delta_pulse = current_value - previous_value
-                previous_value = current_value
                 delta_lenght = delta_pulse * lenght_one_pulse
                 self.lst_lenght_encoder.append(delta_lenght)
 
