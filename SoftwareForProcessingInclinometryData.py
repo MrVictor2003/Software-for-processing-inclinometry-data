@@ -270,7 +270,6 @@ class Visualizer:
                  label='Траектория скважины')
         plt.axis('equal')
         plt.title('График траектории скважины')
-        plt.ylabel('H')
         plt.legend()
         plt.show()
 
