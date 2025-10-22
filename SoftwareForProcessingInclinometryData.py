@@ -227,7 +227,7 @@ class ConverterToXYH:
     def calculate_z(self):
         self.lst_z.append(self.z)
         for i in self.lst_lenght_dangle_zangle:
-            self.z += i.get('lenght') * math.sin(i.get('zangle'))
+            self.z += -i.get('lenght') * math.sin(i.get('zangle'))
             self.lst_z.append(self.z)
         return self.lst_z
 
@@ -309,7 +309,7 @@ class Visualizer:
 def main():
     print('Открытие файла с сырыми данными')
     test_rd_collector = RawDataCollector('C:/Users/ygodn/PycharmProjects/Kursovaya_algorithms/'
-                                         'super_final_raw_file5.txt')
+                                         'data/super_final_raw_file3.txt')
     raw_data_lst = test_rd_collector.read_data()
     print('Запуск конвертера сырых данных в длину и углы')
     test_converter_raw_data_to_angles = ConverterRawDataToLenghtDangleZangle(raw_data_lst)
