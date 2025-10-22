@@ -63,7 +63,7 @@ class ConverterRawDataToLenghtDangleZangle:
         return self.lst_dt
 
     def calculate_zangle_by_gyro(self):
-        self.current_zangle_gyro = 0
+        self.current_zangle_gyro = self.lst_raw_data[0].get('y_gyro')*self.lst_dt[0]
         self.lst_zangle_gyro.append(self.current_zangle_gyro)
         for i in range(len(self.lst_raw_data)-1):
             self.current_zangle_gyro += self.lst_raw_data[i+1].get('y_gyro')*self.lst_dt[i]
@@ -150,16 +150,17 @@ class ComplementaryFilter:
         self.lst_zangles = []
 
     def filter_zangles(self):
+        self.behind_zangle = 0
         for i in range(len(self.lst_l_d_zg_za)):
             if i == -1:
                 continue
             else:
-                zangle = (self.alpha * (math.radians(
-                    self.lst_l_d_zg_za[i-1].get('zangle_gyro'))
-                                       + math.radians(self.lst_l_d_zg_za[i].get('zangle_gyro')))
+                zangle = (self.alpha * (self.behind_zangle
+                                        + math.radians(self.lst_l_d_zg_za[i].get('zangle_gyro')))
                           + (1-self.alpha) * self.lst_l_d_zg_za[i].get('zangle_accel'))
 
                 self.lst_zangles.append(zangle)
+                self.behind_zangle = zangle
 
         return self.lst_zangles
 
@@ -295,7 +296,7 @@ def main():
     print('Вычисление dt:')
     lst_dt = test_converter_raw_data_to_angles.calculate_dt()
     print(lst_dt)
-    print('Вычисленные зенитный углы по гироскопу (В ГРАДУСАХ!!!):')
+    print('Вычисленные зенитные углы по гироскопу (В ГРАДУСАХ!!!):')
     lst_zangles_gyro = test_converter_raw_data_to_angles.calculate_zangle_by_gyro()
     print(lst_zangles_gyro)
     print('Вычисленные roll углы по акселерометру (В РАДИАНАХ!!!):')
@@ -347,6 +348,35 @@ def main():
     trajectory_x_y_z = viz1.show_3d_trajectory(x1, y1, z1)
 
 
+    """это проверка расчета зенитных углов (нужно будет добавить в метод calculate_zangle_by_gyro,
+    если это правильно или удалить, если нет"""
+    check_y_gyro = []
+    for i in raw_data_lst:
+        check_y_gyro.append(i.get('y_gyro'))
 
+    print('данные с гироскопа по оси у:')
+    print(check_y_gyro)
+
+    print('dt:')
+    print(lst_dt)
+
+    check_lst_gyro_pitch = []
+    for i in range(len(lst_dt)):
+        if i == 0:
+            behind_gyro_pitch = lst_dt[i]*check_y_gyro[i]
+            check_lst_gyro_pitch.append(behind_gyro_pitch)
+        else:
+            current_gyro_pitch = behind_gyro_pitch + lst_dt[i]*check_y_gyro[i]
+            check_lst_gyro_pitch.append(current_gyro_pitch)
+            behind_gyro_pitch = current_gyro_pitch
+
+
+    print('зенитные углы по гироскопу в градусах:')
+    print(check_lst_gyro_pitch)
+    print(len(check_lst_gyro_pitch))
+
+    print('вычисленные зенитные углы по гироскопу в классе моем')
+    print(lst_zangles_gyro)
+    print(len(lst_zangles_gyro))
 if __name__ == "__main__":
     main()
