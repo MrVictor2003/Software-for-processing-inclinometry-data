@@ -310,12 +310,6 @@ def main():
     print('вычисление азимутов')
     print(lst_dangle)
 
-
-    # print(f'len dangle:{len(lst_dangle)}')
-    # print(f'len zangleg:{len(lst_zangles_gyro)}')
-    # print(f'len zanglea:{len(lst_zangles_accel)}')
-    # print(f'len lenght:{len(lst_lenght_encoder)}')
-
     lst_lenght_dangle_zanglegyro_zangleaccel = test_converter_raw_data_to_angles\
         .get_lenght_dangle_zangleg_zanglea()
     print(lst_lenght_dangle_zanglegyro_zangleaccel)
