@@ -70,28 +70,6 @@ class ConverterRawDataToLenghtDangleZangle:
             self.lst_zangle_gyro.append(self.current_zangle_gyro)
         return self.lst_zangle_gyro
 
-    #Тут я вроде поплыл нужна не сумма длин, а отдельные отрезки
-    # def calculate_lenght_by_encoder(self):
-    #     PPR = 1000
-    #     R = 0.3
-    #
-    #     lenght_one_revolution = 2 * math.pi * R
-    #     lenght_one_pulse = lenght_one_revolution / PPR
-    #
-    #     full_lenght = 0
-    #     for i in range(len(self.lst_raw_data)):
-    #         if i == 0:
-    #             continue
-    #         else:
-    #             current_value = self.lst_raw_data[i].get('pulses')
-    #             previous_value = self.lst_raw_data[i - 1].get('pulses')
-    #             delta_pulse = current_value - previous_value
-    #             previous_value = current_value
-    #             full_lenght += delta_pulse * lenght_one_pulse
-    #             self.lst_lenght_encoder.append(full_lenght)
-    #
-    #     return self.lst_lenght_encoder
-
     def calculate_lenght_by_encoder(self):
         PPR = 1000
         R = 20
