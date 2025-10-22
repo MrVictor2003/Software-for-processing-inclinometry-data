@@ -308,8 +308,7 @@ class Visualizer:
 
 def main():
     print('Открытие файла с сырыми данными')
-    test_rd_collector = RawDataCollector('C:/Users/ygodn/PycharmProjects/Kursovaya_algorithms/'
-                                         'super_final_raw_file5.txt')
+    test_rd_collector = RawDataCollector('./data/super_final_raw_file5.txt')
     raw_data_lst = test_rd_collector.read_data()
     print('Запуск конвертера сырых данных в длину и углы')
     test_converter_raw_data_to_angles = ConverterRawDataToLenghtDangleZangle(raw_data_lst)
