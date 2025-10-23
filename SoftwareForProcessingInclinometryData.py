@@ -89,38 +89,26 @@ class ConverterRawDataToLenghtDangleZangle:
 
         return self.lst_lenght_encoder
 
-    #Этот метод написал не сам, так как начал сомневаться в правильности расчета
-    #roll и pitch в методах calculate_zangle_by_accel() и calculate_roll_by_accel.
-    #В данном методе наклон магнитометра компенсируется с помощью акселерометра.
     def calculate_dangle(self):
-        """Исправленный расчет азимута с компенсацией наклона"""
         self.lst_dangle = []
         for i in self.lst_raw_data:
-            # Нормализация акселерометра
-            accel_norm = math.sqrt(i.get('x_accel') ** 2 + i.get('y_accel') ** 2 + i.get('z_accel') ** 2)
+
+            accel_x = i.get('x_accel')
+            accel_y = i.get('y_accel')
+            accel_z = i.get('z_accel')
+
+            accel_norm = math.sqrt(accel_x**2+accel_y**2+accel_z**2)
             if accel_norm < 0.001:
                 continue
 
-            norm_accel_x = i.get('x_accel') / accel_norm
-            norm_accel_y = i.get('y_accel') / accel_norm
-            norm_accel_z = i.get('z_accel') / accel_norm
-
-            # Углы наклона
-            roll = math.atan2(norm_accel_y, norm_accel_z)
-            pitch = math.atan2(-norm_accel_x, math.sqrt(norm_accel_y ** 2 + norm_accel_z ** 2))
-
-            # Компенсация наклона магнитометра (ИСПРАВЛЕННАЯ ФОРМУЛА)
-            mx = i.get('x_magn')
-            my = i.get('y_magn')
-            mz = i.get('z_magn')
-
-            magn_x_compensed = mx * math.cos(pitch) + mz * math.sin(pitch)
-            magn_y_compensed = (mx * math.sin(roll) * math.sin(pitch) +
-                                my * math.cos(roll) -
-                                mz * math.sin(roll) * math.cos(pitch))
+            magn_x = i.get('x_magn')
+            magn_y = i.get('y_magn')
+            magn_z = i.get('z_magn')
 
             # Азимут
-            dangle = math.atan2(magn_y_compensed, magn_x_compensed)
+            dangle = math.atan2(accel_norm*(magn_y*accel_x-magn_x*accel_y),
+                                magn_z*(accel_x**2+accel_y**2)-accel_z*\
+                                (accel_x*magn_x+accel_y*magn_y))
 
             # Нормализация
             if dangle < 0:
