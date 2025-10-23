@@ -36,7 +36,6 @@ class ConverterRawDataToLenghtDangleZangle:
         self.lst_raw_data = lst_raw_data
         self.lst_lenght_dangle_zangleg_zanglea = []
         self.lst_zangle_accel = []
-        self.lst_roll_accel = []
         self.lst_dt = []
         self.lst_zangle_gyro = []
         self.lst_dangle = []
@@ -47,11 +46,6 @@ class ConverterRawDataToLenghtDangleZangle:
             self.lst_zangle_accel.append(math.atan2(i.get('y_accel'),
                                                     math.sqrt(i.get('x_accel') ** 2 + i.get('z_accel') ** 2)))
         return self.lst_zangle_accel
-
-    def calculate_roll_by_accel(self):
-        for i in self.lst_raw_data:
-            self.lst_roll_accel.append(math.atan2(-i.get('x_accel'), i.get('z_accel')))
-        return self.lst_roll_accel
 
     def calculate_dt(self):
         for i in range(len(self.lst_raw_data)):
@@ -287,8 +281,6 @@ def main():
     lst_zangles_gyro = test_converter_raw_data_to_angles.calculate_zangle_by_gyro()
     print(lst_zangles_gyro)
     print('Вычисленные roll углы по акселерометру (В РАДИАНАХ!!!):')
-    lst_roll_accel = test_converter_raw_data_to_angles.calculate_roll_by_accel()
-    print(lst_roll_accel)
     lst_lenght_encoder = test_converter_raw_data_to_angles.calculate_lenght_by_encoder()
     print('вычисленные длины по энкодеру')
     print(lst_lenght_encoder)
