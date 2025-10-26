@@ -269,11 +269,19 @@ class CreatorOfTheTxtFileForNcad:
     def __init__(self, lst_xyz):
         self.lst_xyz = lst_xyz
 
-    def create_txt_file(self, filename):
+    def create_txt_file_with_points(self, filename):
         self.filename = filename
 
         with open(filename, 'w') as file:
             file.write('POINT\n')
+            for i in self.lst_xyz:
+                file.write(f'{round(i.get('x'),3)},{round(i.get('y'),3)},{round(i.get('z'),3)}\n')
+
+    def create_txt_file_with_plines(self, filename):
+        self.filename = filename
+
+        with open(filename, 'w') as file:
+            file.write('3DPOLY\n')
             for i in self.lst_xyz:
                 file.write(f'{round(i.get('x'),3)},{round(i.get('y'),3)},{round(i.get('z'),3)}\n')
 
@@ -331,7 +339,8 @@ def main():
     print(test_well_deviation.get_max_lateral_deviation())
 
     txt_file_test = CreatorOfTheTxtFileForNcad(lstxyz)
-    txt_file_test.create_txt_file('txt_file_to_ncad.txt')
+    txt_file_test.create_txt_file_with_points('txt_file_to_ncad.txt')
+    txt_file_test.create_txt_file_with_plines('txt_file_to_ncad2.txt')
 
     viz1 = Visualizer(lstxyz)
     x1 = viz1.get_x()
