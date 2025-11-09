@@ -13,7 +13,7 @@ class RawDataCollectorSevenMeasurements:
                 values = line.strip().split(',')
                 if len(values) == 7:
                     data_measure = {
-                        'Depth': float(values[0]),
+                        'depth': float(values[0]),
                         'x_accel': float(values[1]),
                         'y_accel': float(values[2]),
                         'z_accel': float(values[3]),
@@ -25,12 +25,19 @@ class RawDataCollectorSevenMeasurements:
 
         return self.raw_data
 
-class ConverterRawDataToLenghtDangleZangle:
+class ConverterRawDataToDepthDangleZangle:
     "Класс для расчета азимутов и зенитных углов по сырым данным"
     def __init__(self, lst_raw_data):
         self.lst_raw_data = lst_raw_data
         self.lst_azimuths = []
         self.lst_zangles = []
+        self.lst_depth = []
+
+    def get_depth(self):
+        self.lst_depth = []
+        for i in self.lst_raw_data:
+            self.lst_depth.append(i.get('depth'))
+        return self.lst_depth
 
     def calculate_azimuths(self):
         self.lst_azimuths = []
@@ -78,19 +85,27 @@ class ConverterRawDataToLenghtDangleZangle:
 
 
 def main():
+    #Чтение файла с сырыми данными
     filename = "./data/raw_data_ishodnie.txt"
     data_collector7 = RawDataCollectorSevenMeasurements(filename)
     raw_data7 = data_collector7.read_data()
     print(raw_data7)
+    print(type(raw_data7))
 
-    converter_raw_data = ConverterRawDataToLenghtDangleZangle(raw_data7)
+    #Расчет азимутов
+    converter_raw_data = ConverterRawDataToDepthDangleZangle(raw_data7)
     lst_azimuths = converter_raw_data.calculate_azimuths()
     print(lst_azimuths)
     print(len(lst_azimuths))
 
+    #Расчет зенитных углов
     lst_zangles = converter_raw_data.calculate_zangles()
     print(lst_zangles)
     print(len(lst_zangles))
+
+    lst_depth = converter_raw_data.get_depth()
+    print(lst_depth)
+    print(len(lst_depth))
 
 if __name__ == "__main__":
     main()
