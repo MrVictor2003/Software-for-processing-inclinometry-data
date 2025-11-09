@@ -32,6 +32,9 @@ class ConverterRawDataToDepthDangleZangle:
         self.lst_azimuths = []
         self.lst_zangles = []
         self.lst_depths = []
+        self.lst_lenght = []
+        self.lst_avg_azimuths = []
+        self.lst_avg_zangles = []
         self.lst_depth_azimuths_zangles = []
 
     def get_depth(self):
@@ -39,6 +42,11 @@ class ConverterRawDataToDepthDangleZangle:
         for i in self.lst_raw_data:
             self.lst_depths.append(i.get('depth'))
         return self.lst_depths
+
+    def calculate_lenght(self):
+        for i in range(len(self.lst_depths)-1):
+            self.lst_lenght.append(round(self.lst_depths[i+1]-self.lst_depths[i],3))
+        return self.lst_lenght
 
     def calculate_azimuths(self):
         self.lst_azimuths = []
@@ -68,6 +76,12 @@ class ConverterRawDataToDepthDangleZangle:
             self.lst_azimuths.append(azimuth)
         return self.lst_azimuths
 
+    def calculate_avg_azimuths(self):
+        for i in range(len(self.lst_azimuths)-1):
+            self.lst_avg_azimuths.append((self.lst_azimuths[i+1]+\
+                                                self.lst_azimuths[i])/2)
+        return self.lst_avg_azimuths
+
     def calculate_zangles(self):
         self.lst_zangles = []
         for i in self.lst_raw_data:
@@ -84,6 +98,14 @@ class ConverterRawDataToDepthDangleZangle:
 
         return self.lst_zangles
 
+    def calculate_avg_zangles(self):
+        for i in range(len(self.lst_zangles)-1):
+            self.lst_avg_zangles.append((self.lst_zangles[i+1]+\
+                                                self.lst_zangles[i])/2)
+        return self.lst_avg_zangles
+
+    #поменять метод ниже на список с вложенными словарями СРЕДНИХ ЗНАЧЕНИЙ
+
     def get_depth_azimuths_zangles(self):
         for i in range(len(self.lst_raw_data)):
             data_depth_azimuths_zangles = {
@@ -95,50 +117,52 @@ class ConverterRawDataToDepthDangleZangle:
 
         return self.lst_depth_azimuths_zangles
 
-# class ConverterToXYH:
-#     "Класс для расчета координат по расстояниям, дирекционным и зенитным углам"
-#     def __init__(self, lst_azimuths, lst_zangles, lst_depth, x=0, y=0, z=0):
-#         self.x = x
-#         self.y = y
-#         self.z = z
-#         self.lst_azimuths = lst_azimuths
-#         self.lst_zangles = lst_zangles
-#         self.lst_depth = lst_depth
-#         self.lst_x = []
-#         self.lst_y = []
-#         self.lst_z = []
-#
-#     def calculate_x(self):
-#         self.lst_x.append(self.x)
-#         for i in self.lst_lenght_dangle_zangle:
-#             self.x += i.get('lenght')*math.cos(i.get('dangle'))\
-#                               *math.cos(i.get('zangle'))
-#             self.lst_x.append(self.x)
-#
-#         return self.lst_x
-#
-#     def calculate_y(self):
-#         self.lst_y.append(self.y)
-#         for i in self.lst_lenght_dangle_zangle:
-#             self.y += i.get('lenght')*math.sin(i.get('dangle'))\
-#                               *math.cos(i.get('zangle'))
-#             self.lst_y.append(self.y)
-#
-#         return self.lst_y
-#
-#     def calculate_z(self):
-#         self.lst_z.append(self.z)
-#         for i in self.lst_lenght_dangle_zangle:
-#             self.z += -i.get('lenght') * math.sin(i.get('zangle'))
-#             self.lst_z.append(self.z)
-#         return self.lst_z
-#
-#     def get_coords(self):
-#         for i in range(len(self.lst_x)):
-#             self.lst_xyz.append({'x': self.lst_x[i],
-#                                  'y': self.lst_y[i],
-#                                  'z': self.lst_z[i]})
-#         return self.lst_xyz
+class ConverterToXYH:
+    "Класс для расчета координат по расстояниям, дирекционным и зенитным углам"
+    def __init__(self, lst_depth_azimuths_zangles, x=0, y=0, z=0):
+        self.lst_depth_azimuths_zangles = lst_depth_azimuths_zangles
+        self.x = x
+        self.y = y
+        self.z = z
+        self.lst_x = []
+        self.lst_y = []
+        self.lst_z = []
+
+    # def calculate_x(self):
+    #     self.lst_x.append(self.x)
+    #     for i in range(len(self.lst_depth_azimuths_zangles)-1):
+    #         if i == 0:
+    #             self.x += self.lst_depth_azimuths_zangles[i].get('depth')
+    #             self.lst_x.append(self.x)
+    #         else:
+    #             self.x += self.lst_depth_azimuths_zangles[i-1].get('depth')-\
+    #                 self.lst_depth_azimuths_zangles[i].get('depth')
+    #             self.lst_x.append(self.x)
+    #
+    #     return self.lst_x
+
+    def calculate_y(self):
+        self.lst_y.append(self.y)
+        for i in self.lst_depth_azimuths_zangles:
+            self.y += i.get('depth')*math.sin(i.get('azimuth'))\
+                              *math.cos(i.get('zangle'))
+            self.lst_y.append(self.y)
+
+        return self.lst_y
+
+    def calculate_z(self):
+        self.lst_z.append(self.z)
+        for i in self.lst_depth_azimuths_zangles:
+            self.z += -i.get('depth') * math.sin(i.get('zangle'))
+            self.lst_z.append(self.z)
+        return self.lst_z
+
+    def get_coords(self):
+        for i in range(len(self.lst_x)):
+            self.lst_xyz.append({'x': self.lst_x[i],
+                                 'y': self.lst_y[i],
+                                 'z': self.lst_z[i]})
+        return self.lst_xyz
 
 
 def main():
@@ -147,7 +171,6 @@ def main():
     data_collector7 = RawDataCollectorSevenMeasurements(filename)
     raw_data7 = data_collector7.read_data()
     print(raw_data7)
-    print(type(raw_data7))
 
     #Расчет азимутов
     converter_raw_data = ConverterRawDataToDepthDangleZangle(raw_data7)
@@ -167,6 +190,24 @@ def main():
     lst_de_az_za = converter_raw_data.get_depth_azimuths_zangles()
     print(lst_de_az_za)
     print(len(lst_de_az_za))
+
+    lst_lenghts = converter_raw_data.calculate_lenght()
+    print(lst_lenghts)
+    print(len(lst_lenghts))
+
+    lst_avg_azimuths = converter_raw_data.calculate_avg_azimuths()
+    print(lst_avg_azimuths)
+    print(len(lst_avg_azimuths))
+
+    lst_avg_zangles = converter_raw_data.calculate_avg_zangles()
+    print(lst_avg_zangles)
+    print(len(lst_avg_zangles))
+
+    #
+    # converter_to_xyh = ConverterToXYH(lst_de_az_za)
+    # lst_x = converter_to_xyh.calculate_x()
+    # print(lst_x)
+    # print(len(lst_x))
 
 if __name__ == "__main__":
     main()
