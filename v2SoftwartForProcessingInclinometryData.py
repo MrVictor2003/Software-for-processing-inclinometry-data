@@ -181,6 +181,20 @@ class ConverterToXYH:
                                  'z': self.lst_z[i]})
         return self.lst_xyz
 
+class WellDeviation:
+    def __init__(self, lst_xyz):
+        self.lst_xyz = lst_xyz
+        self.lst_lateral_deviation = []
+
+    def get_lateral_deviations(self):
+        for i in self.lst_xyz:
+            self.lst_lateral_deviation.append(math.sqrt(i.get('x')**2 + i.get('y')**2))
+
+        return self.lst_lateral_deviation
+
+    def get_max_lateral_deviation(self):
+        return round(max(self.lst_lateral_deviation),3)
+
 class Visualizer:
     "Класс для визуализации траектории скважины"
     def __init__(self, lst_x, lst_y, lst_z):
@@ -284,6 +298,13 @@ def main():
     lst_xyz = converter_to_xyh.get_coords()
     print(lst_xyz)
     print(len(lst_xyz))
+
+    test_well_deviation = WellDeviation(lst_xyz)
+    print('горизонтальные отклонения скважины')
+    lst_lateral_deviations = test_well_deviation.get_lateral_deviations()
+    print(lst_lateral_deviations)
+    print('максимальное горизонтальное отклонение')
+    print(test_well_deviation.get_max_lateral_deviation())
 
     vizualizer = Visualizer(lst_x, lst_y, lst_z)
     # plot_2d = vizualizer.show_2d_trajectory(lst_x, lst_y)
