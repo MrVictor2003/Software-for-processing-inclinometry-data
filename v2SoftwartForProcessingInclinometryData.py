@@ -148,22 +148,22 @@ class ConverterToXYH:
         self.lst_y = []
         self.lst_z = []
 
-    def calculate_x(self):
-        for i in self.lst_lenght_azimuths_zangles:
-            self.x += i.get('lenght')*math.sin(i.get('avg_zangle'))*\
-            math.sin(i.get('avg_azimuth'))
-
-            self.lst_x.append(self.x)
-
-        return self.lst_x
-
     def calculate_y(self):
         for i in self.lst_lenght_azimuths_zangles:
-            self.y += i.get('lenght')*math.sin(i.get('avg_zangle'))*math.cos(i.get('avg_azimuth'))
+            self.y += i.get('lenght')*math.sin(i.get('avg_zangle'))*\
+            math.sin(i.get('avg_azimuth'))
 
             self.lst_y.append(self.y)
 
         return self.lst_y
+
+    def calculate_x(self):
+        for i in self.lst_lenght_azimuths_zangles:
+            self.x += i.get('lenght')*math.sin(i.get('avg_zangle'))*math.cos(i.get('avg_azimuth'))
+
+            self.lst_x.append(self.x)
+
+        return self.lst_x
 
     def calculate_z(self):
         for i in self.lst_lenght_azimuths_zangles:
