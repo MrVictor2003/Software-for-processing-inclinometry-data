@@ -97,9 +97,9 @@ class ConverterRawDataToDepthDangleZangle:
         return self.lst_adjusted_azimuths
 
     def calculate_avg_azimuths(self):
-        for i in range(len(self.lst_azimuths)-1):
-            self.lst_avg_azimuths.append((self.lst_azimuths[i+1]+\
-                                                self.lst_azimuths[i])/2)
+        for i in range(len(self.lst_adjusted_azimuths)-1):
+            self.lst_avg_azimuths.append((self.lst_adjusted_azimuths[i+1]+\
+                                                self.lst_adjusted_azimuths[i])/2)
         return self.lst_avg_azimuths
 
     def calculate_zangles(self):
@@ -214,13 +214,13 @@ class Visualizer:
 
 
 def main():
-    #Чтение файла с сырыми данными
+    print('Чтение файла с сырыми данными')
     filename = "./data/raw_data_ishodnie.txt"
     data_collector7 = RawDataCollectorSevenMeasurements(filename)
     raw_data7 = data_collector7.read_data()
     print(raw_data7)
 
-    #Расчет азимутов
+    print('Расчет азимутов')
     converter_raw_data = ConverterRawDataToDepthDangleZangle(raw_data7)
     lst_azimuths = converter_raw_data.calculate_azimuths()
     print(lst_azimuths)
@@ -236,27 +236,30 @@ def main():
     print(lst_adjusted_azimuths)
     print(len(lst_adjusted_azimuths))
 
-    #Расчет зенитных углов
+    print('Расчет зенитных углов')
     lst_zangles = converter_raw_data.calculate_zangles()
     print(lst_zangles)
     print(len(lst_zangles))
 
+    print('Вывод глубин')
     lst_depths = converter_raw_data.get_depth()
     print(lst_depths)
     print(len(lst_depths))
 
+    print('Расчет длин отрезков')
     lst_lenghts = converter_raw_data.calculate_lenght()
     print(lst_lenghts)
     print(len(lst_lenghts))
-    #Расчет средних азимутов
+    print('Расчет средних азимутов')
     lst_avg_azimuths = converter_raw_data.calculate_avg_azimuths()
     print(lst_avg_azimuths)
     print(len(lst_avg_azimuths))
-    #Расчет средних зенитных углов
+    print('Расчет средних зенитных углов')
     lst_avg_zangles = converter_raw_data.calculate_avg_zangles()
     print(lst_avg_zangles)
     print(len(lst_avg_zangles))
 
+    print('Вывод списка с длинами, азимутами и зенитными углами')
     lst_de_az_za = converter_raw_data.get_lenght_azimuths_zangles()
     print(lst_de_az_za)
     print(len(lst_de_az_za))
@@ -279,8 +282,8 @@ def main():
     print(min(lst_z))
 
     vizualizer = Visualizer(lst_x, lst_y, lst_z)
-    # plot_2d = vizualizer.show_2d_trajectory(lst_y, lst_z)
-    # plot_3d = vizualizer.show_3d_trajectory(lst_x, lst_y, lst_z)
+    # plot_2d = vizualizer.show_2d_trajectory(lst_x, lst_y)
+    plot_3d = vizualizer.show_3d_trajectory(lst_x, lst_y, lst_z)
 
 
 if __name__ == "__main__":
