@@ -161,6 +161,37 @@ class ConverterToXYH:
                                  'z': self.lst_z[i]})
         return self.lst_xyz
 
+class Visualizer:
+    "Класс для визуализации траектории скважины"
+    def __init__(self, lst_x, lst_y, lst_z):
+        self.lst_x = lst_x
+        self.lst_y = lst_y
+        self.lst_z = lst_z
+
+    def show_x_z(self):
+        plt.plot(self.lst_x, self.lst_z)
+        plt.show()
+
+    def show_2d_trajectory(self, first_axis, second_axis):
+        self.first_axis = first_axis
+        self.second_axis = second_axis
+        plt.plot(self.first_axis, self.second_axis,
+                 label='Траектория скважины')
+        plt.axis('equal')
+        plt.title('График траектории скважины')
+        plt.legend()
+        plt.show()
+
+    def show_3d_trajectory(self, first_axis, second_axis, third_axis):
+        self.first_axis = first_axis
+        self.second_axis = second_axis
+        self.third_axis = third_axis
+        fig = plt.figure()
+        ax = fig.add_subplot(111, projection='3d')
+        ax.plot(self.first_axis, self.second_axis, self.third_axis)
+        ax.axis('equal')
+        plt.show()
+
 
 def main():
     #Чтение файла с сырыми данными
@@ -187,11 +218,11 @@ def main():
     lst_lenghts = converter_raw_data.calculate_lenght()
     print(lst_lenghts)
     print(len(lst_lenghts))
-
+    #Расчет средних азимутов
     lst_avg_azimuths = converter_raw_data.calculate_avg_azimuths()
     print(lst_avg_azimuths)
     print(len(lst_avg_azimuths))
-
+    #Расчет средних зенитных углов
     lst_avg_zangles = converter_raw_data.calculate_avg_zangles()
     print(lst_avg_zangles)
     print(len(lst_avg_zangles))
@@ -201,17 +232,26 @@ def main():
     print(len(lst_de_az_za))
 
     converter_to_xyh = ConverterToXYH(lst_de_az_za)
+    print('расчет координат по оси X')
     lst_x = converter_to_xyh.calculate_x()
     print(lst_x)
     print(len(lst_x))
-
+    print(min(lst_x))
+    print('расчет координат по оси Y')
     lst_y = converter_to_xyh.calculate_y()
     print(lst_y)
     print(len(lst_y))
-
+    print(min(lst_y))
+    print('расчет координат по оси H')
     lst_z = converter_to_xyh.calculate_z()
     print(lst_z)
     print(len(lst_z))
+    print(min(lst_z))
+
+    vizualizer = Visualizer(lst_x, lst_y, lst_z)
+    # plot_2d = vizualizer.show_2d_trajectory(lst_y, lst_z)
+    # plot_3d = vizualizer.show_3d_trajectory(lst_x, lst_y, lst_z)
+
 
 if __name__ == "__main__":
     main()
