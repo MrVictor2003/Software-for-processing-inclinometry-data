@@ -147,6 +147,7 @@ class ConverterToXYH:
         self.lst_x = []
         self.lst_y = []
         self.lst_z = []
+        self.lst_xyz = []
 
     def calculate_y(self):
         for i in self.lst_lenght_azimuths_zangles:
@@ -280,9 +281,13 @@ def main():
     print(len(lst_z))
     print(min(lst_z))
 
+    lst_xyz = converter_to_xyh.get_coords()
+    print(lst_xyz)
+    print(len(lst_xyz))
+
     vizualizer = Visualizer(lst_x, lst_y, lst_z)
     # plot_2d = vizualizer.show_2d_trajectory(lst_x, lst_y)
-    plot_3d = vizualizer.show_3d_trajectory(lst_x, lst_y, lst_z)
+    # plot_3d = vizualizer.show_3d_trajectory(lst_x, lst_y, lst_z)
 
 
 if __name__ == "__main__":
