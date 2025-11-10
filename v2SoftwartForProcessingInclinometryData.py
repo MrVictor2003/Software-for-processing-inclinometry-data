@@ -139,7 +139,7 @@ class ConverterRawDataToDepthDangleZangle:
 
 class ConverterToXYH:
     "Класс для расчета координат по расстояниям, дирекционным и зенитным углам"
-    def __init__(self, lst_lenght_azimuths_zangles, x=0, y=0, z=0):
+    def __init__(self, lst_lenght_azimuths_zangles, x=7602075.49, y=457761.31, z=-9.69):
         self.lst_lenght_azimuths_zangles = lst_lenght_azimuths_zangles
         self.x = x
         self.y = y
@@ -149,7 +149,17 @@ class ConverterToXYH:
         self.lst_z = []
         self.lst_xyz = []
 
+    def calculate_x(self):
+        self.lst_x.append(self.x)
+        for i in self.lst_lenght_azimuths_zangles:
+            self.x += i.get('lenght')*math.sin(i.get('avg_zangle'))*math.cos(i.get('avg_azimuth'))
+
+            self.lst_x.append(self.x)
+
+        return self.lst_x
+
     def calculate_y(self):
+        self.lst_y.append(self.y)
         for i in self.lst_lenght_azimuths_zangles:
             self.y += i.get('lenght')*math.sin(i.get('avg_zangle'))*\
             math.sin(i.get('avg_azimuth'))
@@ -158,15 +168,8 @@ class ConverterToXYH:
 
         return self.lst_y
 
-    def calculate_x(self):
-        for i in self.lst_lenght_azimuths_zangles:
-            self.x += i.get('lenght')*math.sin(i.get('avg_zangle'))*math.cos(i.get('avg_azimuth'))
-
-            self.lst_x.append(self.x)
-
-        return self.lst_x
-
     def calculate_z(self):
+        self.lst_z.append(self.z)
         for i in self.lst_lenght_azimuths_zangles:
             self.z += -i.get('lenght')*math.cos(i.get('avg_zangle'))
 
@@ -225,6 +228,27 @@ class Visualizer:
         ax.plot(self.first_axis, self.second_axis, self.third_axis)
         ax.axis('equal')
         plt.show()
+
+class CreatorOfTheTxtFileForNcad:
+    def __init__(self, lst_xyz):
+        self.lst_xyz = lst_xyz
+
+    def create_txt_file_with_points(self, filename):
+        self.filename = filename
+
+        with open(filename, 'w') as file:
+            file.write('POINT\n')
+            for i in self.lst_xyz:
+                file.write(f'{round(i.get('x'),3)},{round(i.get('y'),3)},{round(i.get('z'),3)}\n')
+
+    def create_txt_file_with_plines(self, filename):
+        self.filename = filename
+
+        with open(filename, 'w') as file:
+            file.write('3DPOLY\n')
+            for i in self.lst_xyz:
+                file.write(f'{round(i.get('x'),3)},{round(i.get('y'),3)},{round(i.get('z'),3)}\n')
+
 
 
 def main():
@@ -305,6 +329,10 @@ def main():
     print(lst_lateral_deviations)
     print('максимальное горизонтальное отклонение')
     print(test_well_deviation.get_max_lateral_deviation())
+
+    txt_file_test = CreatorOfTheTxtFileForNcad(lst_xyz)
+    txt_file_test.create_txt_file_with_points('./data/txt_file_to_ncad.txt')
+    # txt_file_test.create_txt_file_with_plines('./data/txt_file_to_ncad2.txt')
 
     vizualizer = Visualizer(lst_x, lst_y, lst_z)
     # plot_2d = vizualizer.show_2d_trajectory(lst_x, lst_y)
