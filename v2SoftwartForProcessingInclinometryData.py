@@ -30,6 +30,7 @@ class ConverterRawDataToDepthDangleZangle:
     def __init__(self, lst_raw_data):
         self.lst_raw_data = lst_raw_data
         self.lst_azimuths = []
+        self.lst_adjusted_azimuths = []
         self.lst_zangles = []
         self.lst_depths = []
         self.lst_lenght = []
@@ -75,6 +76,25 @@ class ConverterRawDataToDepthDangleZangle:
 
             self.lst_azimuths.append(azimuth)
         return self.lst_azimuths
+
+    def calculate_delta_azimuth(self, b, l, magnetic_declination, n, lst_azimuths):
+        self.lst_azimuths = lst_azimuths
+        self.b = b
+        self.l = l
+        self.magnetic_declination = magnetic_declination
+        self.n = n
+        self.lst_adjusted_azimuths = []
+
+        l_0 = 6 * self.n - 3
+        b_rad = math.radians(self.b)
+        l_rad = math.radians(self.l)
+        l_0_rad = math.radians(l_0)
+        convergence_of_the_meridians = (l_rad - l_0_rad) * math.sin(b_rad)
+
+        for i in self.lst_azimuths:
+            adjusted_azimuth = i + self.magnetic_declination - convergence_of_the_meridians
+            self.lst_adjusted_azimuths.append(adjusted_azimuth)
+        return self.lst_adjusted_azimuths
 
     def calculate_avg_azimuths(self):
         for i in range(len(self.lst_azimuths)-1):
@@ -205,6 +225,16 @@ def main():
     lst_azimuths = converter_raw_data.calculate_azimuths()
     print(lst_azimuths)
     print(len(lst_azimuths))
+
+    print('Расчет азимутов с поправкой')
+    lst_adjusted_azimuths = converter_raw_data.calculate_delta_azimuth(
+        68.527570255,
+        79.964853136,
+        0.40247292551,
+        14,
+        lst_azimuths)
+    print(lst_adjusted_azimuths)
+    print(len(lst_adjusted_azimuths))
 
     #Расчет зенитных углов
     lst_zangles = converter_raw_data.calculate_zangles()
