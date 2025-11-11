@@ -340,8 +340,8 @@ def main():
     print(test_well_deviation.get_max_lateral_deviation())
 
     txt_file_test = CreatorOfTheTxtFileForNcad(lst_xyz)
-    # txt_file_test.create_txt_file_with_points('./data/txt_file_to_ncad.txt')
-    # txt_file_test.create_txt_file_with_plines('./data/txt_file_to_ncad2.txt')
+    txt_file_test.create_txt_file_with_points('./data/txt_file_with_points_to_ncad.txt')
+    txt_file_test.create_txt_file_with_plines('./data/txt_file_with_polylines_to_ncad.txt')
 
     vizualizer = Visualizer(lst_x, lst_y, lst_z)
     # plot_2d = vizualizer.show_2d_trajectory(lst_x, lst_y)
