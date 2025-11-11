@@ -188,15 +188,27 @@ class WellDeviation:
     def __init__(self, lst_xyz):
         self.lst_xyz = lst_xyz
         self.lst_lateral_deviation = []
+        self.index_max_lateral_deviation = 0
+        self.max_lateral_deviation = 0
+        self.deviation_x = 0
+        self.deviation_y = 0
 
-    def get_lateral_deviations(self):
+    def get_max_lateral_deviation(self):
         for i in self.lst_xyz:
             self.lst_lateral_deviation.append(math.sqrt(i.get('x')**2 + i.get('y')**2))
 
-        return self.lst_lateral_deviation
+        self.index_max_lateral_deviation = self.lst_lateral_deviation.index(max(
+            self.lst_lateral_deviation))
 
-    def get_max_lateral_deviation(self):
-        return round(max(self.lst_lateral_deviation),3)
+        self.deviation_x = (self.lst_xyz[self.index_max_lateral_deviation].get('x') -
+                            self.lst_xyz[0].get('x'))
+
+        self.deviation_y = (self.lst_xyz[self.index_max_lateral_deviation].get('y') -
+                            self.lst_xyz[0].get('y'))
+
+        self.max_lateral_deviation = math.sqrt(self.deviation_x**2 + self.deviation_y**2)
+
+        return self.max_lateral_deviation
 
 class Visualizer:
     "Класс для визуализации траектории скважины"
@@ -324,14 +336,14 @@ def main():
     print(len(lst_xyz))
 
     test_well_deviation = WellDeviation(lst_xyz)
-    print('горизонтальные отклонения скважины')
-    lst_lateral_deviations = test_well_deviation.get_lateral_deviations()
-    print(lst_lateral_deviations)
+    # print('горизонтальные отклонения скважины')
+    # lst_lateral_deviations = test_well_deviation.get_lateral_deviations()
+    # print(lst_lateral_deviations)
     print('максимальное горизонтальное отклонение')
     print(test_well_deviation.get_max_lateral_deviation())
 
     txt_file_test = CreatorOfTheTxtFileForNcad(lst_xyz)
-    txt_file_test.create_txt_file_with_points('./data/txt_file_to_ncad.txt')
+    # txt_file_test.create_txt_file_with_points('./data/txt_file_to_ncad.txt')
     # txt_file_test.create_txt_file_with_plines('./data/txt_file_to_ncad2.txt')
 
     vizualizer = Visualizer(lst_x, lst_y, lst_z)
