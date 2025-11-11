@@ -336,9 +336,6 @@ def main():
     print(len(lst_xyz))
 
     test_well_deviation = WellDeviation(lst_xyz)
-    # print('горизонтальные отклонения скважины')
-    # lst_lateral_deviations = test_well_deviation.get_lateral_deviations()
-    # print(lst_lateral_deviations)
     print('максимальное горизонтальное отклонение')
     print(test_well_deviation.get_max_lateral_deviation())
 
