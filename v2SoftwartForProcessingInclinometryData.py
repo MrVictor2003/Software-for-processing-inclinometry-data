@@ -98,7 +98,7 @@ class ConverterRawDataToDepthDangleZangle:
 
     def calculate_avg_azimuths(self):
         for i in range(len(self.lst_adjusted_azimuths)-1):
-            self.lst_avg_azimuths.append((self.lst_adjusted_azimuths[i+1]+\
+            self.lst_avg_azimuths.append((self.lst_adjusted_azimuths[i+1]+
                                                 self.lst_adjusted_azimuths[i])/2)
         return self.lst_avg_azimuths
 
@@ -120,7 +120,7 @@ class ConverterRawDataToDepthDangleZangle:
 
     def calculate_avg_zangles(self):
         for i in range(len(self.lst_zangles)-1):
-            self.lst_avg_zangles.append((self.lst_zangles[i+1]+\
+            self.lst_avg_zangles.append((self.lst_zangles[i+1]+
                                                 self.lst_zangles[i])/2)
         return self.lst_avg_zangles
 
