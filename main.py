@@ -6,7 +6,7 @@ from classes.visualizer import Visualizer
 from classes.creator_of_the_txt_file_for_ncad import CreatorOfTheTxtFileForNcad
 
 def main():
-    print('Чтение файла с сырыми данными')
+    #Чтение файла с сырыми данными
     filename = "./data/raw_data_ishodnie.txt"
     data_collector7 = RawDataCollectorSevenMeasurements(filename)
     raw_data7 = data_collector7.read_data()
@@ -86,8 +86,8 @@ def main():
     txt_file_test.create_txt_file_with_plines('./data/txt_file_with_polylines_to_ncad.txt')
 
     vizualizer = Visualizer(lst_x, lst_y, lst_z)
-    # plot_2d = vizualizer.show_2d_trajectory(lst_x, lst_y)
-    # plot_3d = vizualizer.show_3d_trajectory(lst_x, lst_y, lst_z)
+    plot_2d = vizualizer.show_2d_trajectory(lst_x, lst_y)
+    plot_3d = vizualizer.show_3d_trajectory(lst_x, lst_y, lst_z)
 
 if __name__ == "__main__":
     main()
