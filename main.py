@@ -56,7 +56,7 @@ def main():
     print(lst_de_az_za)
     print(len(lst_de_az_za))
 
-    converter_to_xyh = ConverterToXYH(lst_de_az_za)
+    converter_to_xyh = ConverterToXYH(lst_de_az_za,7602075.49,457761.31,-9.69)
     print('расчет координат по оси X')
     lst_x = converter_to_xyh.calculate_x()
     print(lst_x)

@@ -2,7 +2,7 @@ import math
 
 class ConverterToXYH:
     "Класс для расчета координат по расстояниям, дирекционным и зенитным углам"
-    def __init__(self, lst_lenght_azimuths_zangles, x=7602075.49, y=457761.31, z=-9.69):
+    def __init__(self, lst_lenght_azimuths_zangles, x=0, y=0, z=0):
         self.lst_lenght_azimuths_zangles = lst_lenght_azimuths_zangles
         self.x = x
         self.y = y
