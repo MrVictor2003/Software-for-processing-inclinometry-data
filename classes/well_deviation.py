@@ -1,6 +1,7 @@
 import math
 
 class WellDeviation:
+    """Класс, рассчитывающий отклонение скважины"""
     def __init__(self, lst_xyz):
         self.lst_xyz = lst_xyz
         self.lst_lateral_deviation = []

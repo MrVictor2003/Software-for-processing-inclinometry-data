@@ -1,4 +1,5 @@
 class CreatorOfTheTxtFileForNcad:
+    """Класс для создания txt-файла для импорта в ПО NanoCAD"""
     def __init__(self, lst_xyz):
         self.lst_xyz = lst_xyz
 

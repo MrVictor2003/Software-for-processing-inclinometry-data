@@ -1,7 +1,7 @@
 import math
 
 class ConverterRawDataToDepthDangleZangle:
-    "Класс для расчета азимутов и зенитных углов по сырым данным"
+    "Класс для расчета дирекционных и зенитных углов по сырым данным"
     def __init__(self, lst_raw_data):
         self.lst_raw_data = lst_raw_data
         self.lst_azimuths = []
