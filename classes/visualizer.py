@@ -17,6 +17,8 @@ class Visualizer:
         plt.plot(self.first_axis, self.second_axis,
                  label='Траектория скважины')
         plt.axis('equal')
+        plt.xlabel('Восток')
+        plt.ylabel('Север')
         plt.title('График траектории скважины')
         plt.legend()
         plt.show()

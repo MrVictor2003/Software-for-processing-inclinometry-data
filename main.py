@@ -86,8 +86,8 @@ def main():
     txt_file_test.create_txt_file_with_plines('./data/txt_file_with_polylines_to_ncad.txt')
 
     vizualizer = Visualizer(lst_x, lst_y, lst_z)
-    plot_2d = vizualizer.show_2d_trajectory(lst_x, lst_y)
-    plot_3d = vizualizer.show_3d_trajectory(lst_x, lst_y, lst_z)
+    plot_2d = vizualizer.show_2d_trajectory(lst_y, lst_x)
+    plot_3d = vizualizer.show_3d_trajectory(lst_y, lst_x, lst_z)
 
 if __name__ == "__main__":
     main()
