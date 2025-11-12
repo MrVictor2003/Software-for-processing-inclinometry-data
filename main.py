@@ -1,6 +1,7 @@
 #Импорт классов программы
 from classes.raw_data_collector import RawDataCollectorSevenMeasurements
-from classes.converter_raw_data_to_depth_dangle_zangle import ConverterRawDataToDepthDangleZangle
+from classes.converter_raw_data_to_depth_dangle_zangle import (
+    ConverterRawDataToDepthDangleZangle)
 from classes.converter_to_xyh import ConverterToXYH
 from classes.well_deviation import WellDeviation
 from classes.visualizer import Visualizer
@@ -45,7 +46,8 @@ def main():
     lst_de_az_za = converter_raw_data.get_lenght_azimuths_zangles()
 
     #Задаются координаты устья скважины х-север, y-восток
-    converter_to_xyh = ConverterToXYH(lst_de_az_za,7602075.49,457761.31,-9.69)
+    converter_to_xyh = ConverterToXYH(lst_de_az_za,
+                                      7602075.49,457761.31,-9.69)
 
     #Расчет координат по оси X
     lst_x = converter_to_xyh.calculate_x()
