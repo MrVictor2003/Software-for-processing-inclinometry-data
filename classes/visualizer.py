@@ -29,6 +29,12 @@ class Visualizer:
         self.third_axis = third_axis
         fig = plt.figure()
         ax = fig.add_subplot(111, projection='3d')
-        ax.plot(self.first_axis, self.second_axis, self.third_axis)
+        plt.xlabel('Восток')
+        plt.ylabel('Север')
+        ax.set_zlabel('Глубина')
+        ax.plot(self.first_axis, self.second_axis, self.third_axis,
+                label='Траектория скважины')
         ax.axis('equal')
+        plt.title('График траектории скважины')
+        plt.legend()
         plt.show()
