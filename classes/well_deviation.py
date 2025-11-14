@@ -23,6 +23,6 @@ class WellDeviation:
         self.deviation_y = (self.lst_xyz[self.index_max_lateral_deviation].get('y') -
                             self.lst_xyz[0].get('y'))
 
-        self.max_lateral_deviation = math.sqrt(self.deviation_x**2 + self.deviation_y**2)
+        self.max_lateral_deviation = round(math.sqrt(self.deviation_x**2 + self.deviation_y**2),3)
 
         return self.max_lateral_deviation
