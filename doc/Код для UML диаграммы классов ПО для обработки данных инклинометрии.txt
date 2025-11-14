@@ -2,41 +2,35 @@
 title "UML диаграмма ПО для обработки данных инклинометрии"
 skinparam classAttributeIconSize 0
 
-class RawDataCollector {
+class RawDataCollectorSevenMeasurements {
 +filename: str
 +raw_data: list
 +read_data(): list
 }
 
-class ConverterRawDataToLenghtDangleZangle {
+class ConverterRawDataToDepthDangleZangle {
 +lst_raw_data: list
-+lst_lenght_dangle_zangleg_zanglea: list
-+lst_zangle_accel: list
-+lst_roll_accel: list
-+lst_dt: list
-+lst_zangle_gyro: list
-+lst_dangle: list
-+lst_lenght_encoder: list
-+calculate_zangle_by_accel(): list
-+calculate_roll_by_accel(): list
-+calculate_dt(): list
-+calculate_zangle_by_gyro(): list
-+calculate_lenght_by_encoder(): list
-+calculate_dangle(): list
-+get_lenght_dangle_zangleg_zanglea(): list
-}
-
-class ComplementaryFilter {
-+lst_l_d_zg_za: list
-+lst_lenght_dangle_zangle: list
-+alpha: 0.9
++lst_azimuths: list
++lst_adjusted_azimuths: list
 +lst_zangles: list
-+filter_zangles(): list
-+get_lenght_dangle_zangle(): list
++lst_depths: list
++lst_lenght: list
++lst_avg_azimuths: list
++lst_avg_zangles: list
++lst_lenght_azimuths_zangles: list
+
++get_depth(): list
++calculate_lenght(): list
++calculate_azimuths(): list
++calculate_delta_azimuth(): list
++calculate_avg_azimuths(): list
++calculate_zangles(): list
++calculate_avg_zangles(): list
++get_lenght_azimuths_zangles(): list
 }
 
 class ConverterToXYH {
-+lst_lenght_dangle_zangle: list
++lst_lenght_azimuths_zangles: list
 +x: float
 +y: float
 +z: float
@@ -51,37 +45,33 @@ class ConverterToXYH {
 }
 
 class Visualizer {
-+lst_xyz: list
 +lst_x: list
 +lst_y: list
 +lst_z: list
-+get_x(): list
-+get_y(): list
-+get_z(): list
 +show_2d_trajectory(): 2d plot
 +show_3d_trajectory(): 3d plot
 }
 
-class ExportToTxtFile {
+class CreatorOfTheTxtFileForNcad {
 +lst_xyz: list
-+lst_x: list
-+lst_y: list
-+lst_z: list
-+export_to_txt(): txt-file
++create_txt_file_with_points(): txt-file
++create_txt_file_with_plines(): txt-file
 }
 
 class WellDeviation {
 +lst_xyz: list
 +lst_lateral_deviation: list
-+get_lateral_deviations(): list
++index_max_lateral_deviation: 0
++max_lateral_deviation: 0
++deviation_x: 0
++deviation_y: 0
 +get_max_lateral_deviation(): float
 }
 
-RawDataCollector <-- ConverterRawDataToLenghtDangleZangle
-ConverterRawDataToLenghtDangleZangle <-- ComplementaryFilter
-ComplementaryFilter <-- ConverterToXYH
+RawDataCollectorSevenMeasurements <-- ConverterRawDataToDepthDangleZangle
+ConverterRawDataToDepthDangleZangle <-- ConverterToXYH
 ConverterToXYH <-- Visualizer
-ConverterToXYH <-- ExportToTxtFile
+ConverterToXYH <-- CreatorOfTheTxtFileForNcad
 ConverterToXYH <-- WellDeviation
 
 @enduml
