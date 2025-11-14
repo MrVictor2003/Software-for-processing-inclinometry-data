@@ -7,10 +7,6 @@ class Visualizer:
         self.lst_y = lst_y
         self.lst_z = lst_z
 
-    def show_x_z(self):
-        plt.plot(self.lst_x, self.lst_z)
-        plt.show()
-
     def show_2d_trajectory(self, first_axis, second_axis):
         self.first_axis = first_axis
         self.second_axis = second_axis
