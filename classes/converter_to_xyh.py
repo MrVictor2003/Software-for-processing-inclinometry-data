@@ -15,7 +15,8 @@ class ConverterToXYH:
     def calculate_x(self):
         self.lst_x.append(self.x)
         for i in self.lst_lenght_azimuths_zangles:
-            self.x += i.get('lenght')*math.sin(i.get('avg_zangle'))*math.cos(i.get('avg_azimuth'))
+            self.x += (i.get('lenght')*math.sin(i.get('avg_zangle'))
+                       *math.cos(i.get('avg_azimuth')))
 
             self.lst_x.append(self.x)
 
