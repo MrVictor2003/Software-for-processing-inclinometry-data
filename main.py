@@ -44,7 +44,7 @@ def main():
     lst_avg_zangles = converter_raw_data.calculate_avg_zangles()
 
     #Формирование списка с вложенными словарями с
-    #длинами, азимутами и зенитными углами
+    #длинами, ср.дир.углами и ср.зенитными углами
     lst_de_az_za = converter_raw_data.get_lenght_azimuths_zangles()
 
     #Задаются координаты устья скважины х-север, y-восток
