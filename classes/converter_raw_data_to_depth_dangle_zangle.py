@@ -21,7 +21,8 @@ class ConverterRawDataToDepthDangleZangle:
 
     def calculate_lenght(self):
         for i in range(len(self.lst_depths)-1):
-            self.lst_lenght.append(round(self.lst_depths[i+1]-self.lst_depths[i],3))
+            self.lst_lenght.append(round(self.lst_depths[i+1]
+                                         -self.lst_depths[i],3))
         return self.lst_lenght
 
     def calculate_azimuths(self):
@@ -52,7 +53,8 @@ class ConverterRawDataToDepthDangleZangle:
             self.lst_azimuths.append(azimuth)
         return self.lst_azimuths
 
-    def calculate_delta_azimuth(self, b, l, magnetic_declination, n, lst_azimuths):
+    def calculate_delta_azimuth(self, b, l, magnetic_declination,
+                                n, lst_azimuths):
         self.lst_azimuths = lst_azimuths
         self.b = b
         self.l = l
@@ -67,14 +69,15 @@ class ConverterRawDataToDepthDangleZangle:
         convergence_of_the_meridians = (l_rad - l_0_rad) * math.sin(b_rad)
 
         for i in self.lst_azimuths:
-            adjusted_azimuth = i + self.magnetic_declination - convergence_of_the_meridians
+            adjusted_azimuth = (i + self.magnetic_declination
+                                - convergence_of_the_meridians)
             self.lst_adjusted_azimuths.append(adjusted_azimuth)
         return self.lst_adjusted_azimuths
 
     def calculate_avg_azimuths(self):
         for i in range(len(self.lst_adjusted_azimuths)-1):
-            self.lst_avg_azimuths.append((self.lst_adjusted_azimuths[i+1]+
-                                                self.lst_adjusted_azimuths[i])/2)
+            self.lst_avg_azimuths.append((self.lst_adjusted_azimuths[i+1]
+                                          +self.lst_adjusted_azimuths[i])/2)
         return self.lst_avg_azimuths
 
     def calculate_zangles(self):
@@ -106,6 +109,7 @@ class ConverterRawDataToDepthDangleZangle:
                 'avg_azimuth': float(self.lst_avg_azimuths[i]),
                 'avg_zangle': float(self.lst_avg_zangles[i])
             }
-            self.lst_lenght_azimuths_zangles.append(data_lenght_azimuths_zangles)
+            self.lst_lenght_azimuths_zangles.append(
+                data_lenght_azimuths_zangles)
 
         return self.lst_lenght_azimuths_zangles
