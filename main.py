@@ -1,11 +1,13 @@
 #Импорт классов программы
-from classes.raw_data_collector import RawDataCollectorSevenMeasurements
+from classes.raw_data_collector import (
+    RawDataCollectorSevenMeasurements)
 from classes.converter_raw_data_to_depth_dangle_zangle import (
     ConverterRawDataToDepthDangleZangle)
 from classes.converter_to_xyh import ConverterToXYH
 from classes.well_deviation import WellDeviation
 from classes.visualizer import Visualizer
-from classes.creator_of_the_txt_file_for_ncad import CreatorOfTheTxtFileForNcad
+from classes.creator_of_the_txt_file_for_ncad import (
+    CreatorOfTheTxtFileForNcad)
 
 #main функция, исполняющая программу
 def main():
@@ -76,9 +78,11 @@ def main():
 
     txt_file_test = CreatorOfTheTxtFileForNcad(lst_xyz)
     #Запись файла с координатами точек для импорта в "NanoCAD"
-    txt_file_test.create_txt_file_with_points('./data/txt_file_with_points_to_ncad.txt')
+    txt_file_test.create_txt_file_with_points(
+        './data/txt_file_with_points_to_ncad.txt')
     #Запись файла с полилинией траектории скважины для импорта в "NanoCAD"
-    txt_file_test.create_txt_file_with_plines('./data/txt_file_with_polylines_to_ncad.txt')
+    txt_file_test.create_txt_file_with_plines(
+        './data/txt_file_with_polylines_to_ncad.txt')
 
     vizualizer = Visualizer(lst_x, lst_y, lst_z)
     #Отображение 2d графика с траекторией скважины в плане
